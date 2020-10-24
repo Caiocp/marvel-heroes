@@ -1,0 +1,27 @@
+#hero-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 8px;
+
+  border: 1px solid #ccc;
+}
+
+#hero-card-container .card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+}
+#hero-card-container h3 {
+  width: 100%;
+}
+
+#hero-card-container .card-content img {
+  max-height: 480px;
+  max-width: 320px;
+  margin: 8px;
+}

@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'Marvel';
+  src: url('./font/Marvel.ttf') format('truetype');
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 10px;
+
+  background: #2e2e2e;
+}
+
+.header h4 {
+  font-size: 64px;
+  margin-left: 8px;
+  font-family: 'Marvel';
+  letter-spacing: 8px;
+  padding-top: 8px;
+}
+
+.App {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 10px;
+}
