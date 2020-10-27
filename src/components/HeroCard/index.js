@@ -2,9 +2,9 @@ import React from 'react';
 
 import './styles.css';
 
-function HeroCard({ hero }) {
+function HeroCard({ hero, scrollRef }) {
   return (
-    <div id='hero-card-container'>
+    <div id='hero-card-container' ref={scrollRef}>
       <div className='card-content'>
         <h3>{hero.name}</h3>
         <img
