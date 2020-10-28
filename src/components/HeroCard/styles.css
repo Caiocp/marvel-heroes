@@ -16,6 +16,7 @@
   align-items: center;
 
   text-align: center;
+  cursor: pointer;
 }
 #hero-card-container h3 {
   width: 100%;
@@ -25,4 +26,10 @@
   max-height: 480px;
   max-width: 320px;
   margin: 8px;
+  transform: scale(0.9);
+  transition: all ease 0.2s;
+}
+
+#hero-card-container .card-content img:hover {
+  transform: scale(1);
 }

@@ -2,10 +2,10 @@ import React from 'react';
 
 import './styles.css';
 
-function HeroCard({ hero, scrollRef }) {
+function HeroCard({ hero, scrollRef, openModal }) {
   return (
     <div id='hero-card-container' ref={scrollRef}>
-      <div className='card-content'>
+      <div className='card-content' onClick={() => openModal(hero)}>
         <h3>{hero.name}</h3>
         <img
           src={`${hero.thumbnail.path}.${hero.thumbnail.extension}`}

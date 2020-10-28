@@ -1,22 +1,48 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import Modal from 'react-modal';
 
-import api from './services/api';
-import { getMd5Hash } from './utils';
 import HeroCard from './components/HeroCard';
 import logo from './assets/marvel.svg';
 
-import './global.css';
 import './App.css';
-import Axios from 'axios';
+import useFetchHeores from './hooks/useFetchHeores';
+import HeroModal from './components/HeroModal';
+import api from './services/api';
+import { getMd5Hash } from './utils';
 
+const modalStyle = {
+  overlay: {
+    backgroundColor: 'rgba(0,0,0, 0.8)',
+  },
+  content: {
+    backgroundColor: '#2e2e2e',
+    color: '#fff',
+    borderWidth: 0,
+    width: '50%',
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    height: '100%',
+    marginTop: 50,
+    paddingBottom: 50,
+  },
+};
+
+Modal.setAppElement('#root');
 function App() {
-  const [heroes, setHeroes] = useState([]);
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [search, setSearch] = useState('');
   const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [heroModal, setHeroModal] = useState({});
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [heroModalComics, setHeroModalComics] = useState([]);
+
+  const { heroes, hasMore, loading, error, errorMessage } = useFetchHeores(
+    search,
+    offset
+  );
 
   const observer = useRef();
   const lastHeroElementRef = useCallback(
@@ -33,43 +59,29 @@ function App() {
     [loading, hasMore]
   );
 
-  useEffect(() => {
-    setHeroes([]);
-  }, [search]);
+  const openModal = (hero) => {
+    setIsModalVisible(true);
+    setHeroModal(hero);
+  };
+  const closeModal = () => {
+    setIsModalVisible(false);
+    // setHeroModal({});
+    setHeroModalComics([]);
+  };
 
-  useEffect(() => {
-    let source = Axios.CancelToken.source();
-    const fetchHeroes = async () => {
-      const { hash, ts } = getMd5Hash();
-      setLoading(true);
+  const fetchHeroComics = async () => {
+    const { hash, ts } = getMd5Hash();
 
-      try {
-        const { data } = await api.get(
-          `/characters?ts=${ts}&apikey=${
-            process.env.REACT_APP_PUBLIC_KEY
-          }&hash=${hash}&${
-            search.length ? `nameStartsWith=${search}` : ''
-          }&offset=${offset}`,
-          { cancelToken: source.token }
-        );
+    try {
+      const { data } = await api.get(
+        `/characters/${heroModal.id}/comics?ts=${ts}&apikey=${process.env.REACT_APP_PUBLIC_KEY}&hash=${hash}`
+      );
 
-        console.log(data.data);
-        setHeroes((prevHeroes) => {
-          return [...prevHeroes, ...data.data.results];
-        });
-        setHasMore(data.data.total > offset);
-        setLoading(false);
-      } catch (error) {
-        if (Axios.isCancel(error)) return;
-        setError(true);
-        setErrorMessage(error.response.data.message);
-      }
-    };
-    fetchHeroes();
-    return () => {
-      source.cancel();
-    };
-  }, [search, offset]);
+      setHeroModalComics(data.data.results);
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
 
   return (
     <>
@@ -88,7 +100,6 @@ function App() {
             }}
             placeholder='Pesquisar herói'
           />
-          <button onClick={() => setOffset(offset + 20)}>add</button>
         </div>
         <div style={{ width: '100%' }}>
           {error ? (
@@ -100,16 +111,27 @@ function App() {
                   <HeroCard
                     key={hero.id}
                     hero={hero}
+                    openModal={openModal}
                     scrollRef={lastHeroElementRef}
                   />
                 );
               } else {
-                return <HeroCard key={hero.id} hero={hero} />;
+                return (
+                  <HeroCard key={hero.id} hero={hero} openModal={openModal} />
+                );
               }
             })
           )}
         </div>
       </div>
+      <Modal
+        isOpen={isModalVisible}
+        onRequestClose={closeModal}
+        onAfterOpen={() => fetchHeroComics()}
+        style={modalStyle}
+      >
+        <HeroModal hero={heroModal} comics={heroModalComics} />
+      </Modal>
     </>
   );
 }
