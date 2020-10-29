@@ -41,8 +41,8 @@
   justify-content: center;
   align-items: center;
 
-  border: 1px solid #ccc;
   border-radius: 8px;
+  background: #2e2e2e;
 
   margin: 4px;
   padding: 4px;
@@ -50,6 +50,11 @@
 
 #hero-modal .comics .comics-content p {
   max-width: 265px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* number of lines to show */
+  -webkit-box-orient: vertical;
 }
 
 #hero-modal .comics .comics-content img {

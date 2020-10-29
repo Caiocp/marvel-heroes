@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  padding: 10px;
+
+  background: #2e2e2e;
+}
+
+.header .header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.header .header-content h4 {
+  font-size: 64px;
+  margin-left: 8px;
+  font-family: 'Marvel';
+  letter-spacing: 8px;
+  padding-top: 8px;
+}

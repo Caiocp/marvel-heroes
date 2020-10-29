@@ -31,7 +31,6 @@ export default function useFetchHeores(search, offset) {
           { cancelToken: source.token }
         );
 
-        console.log(data.data);
         setHeroes((prevHeroes) => {
           return [...prevHeroes, ...data.data.results];
         });

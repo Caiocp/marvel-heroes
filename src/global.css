@@ -12,3 +12,11 @@ body {
   -webkit-font-smoothing: antialiased;
   color: #fff;
 }
+
+.loading-div {
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
