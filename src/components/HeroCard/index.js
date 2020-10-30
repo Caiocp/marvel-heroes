@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './styles.css';
+import '../card.css';
 
 function HeroCard({ hero, scrollRef, openModal }) {
   return (

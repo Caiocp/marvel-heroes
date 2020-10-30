@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './styles.css';
+import '../modal.css';
 
 function HeroModal({ hero, comics }) {
   return (
