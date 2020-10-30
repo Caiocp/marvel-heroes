@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Hero from './pages/Hero';
 import Initial from './pages/Initial';
+import Hero from './pages/Hero';
+import Comics from './pages/Comics';
 
 function Routes() {
   return (
@@ -10,6 +11,7 @@ function Routes() {
       <Switch>
         <Route path='/' component={Initial} exact />
         <Route path='/heroes' component={Hero} />
+        <Route path='/comics' component={Comics} />
       </Switch>
     </BrowserRouter>
   );

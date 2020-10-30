@@ -1,0 +1,34 @@
+@font-face {
+  font-family: 'Marvel';
+  src: url('../../fonts/Marvel.ttf') format('truetype');
+}
+
+.App {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.App .input-container {
+  display: flex;
+  width: 30%;
+}
+
+.App input {
+  width: 100%;
+  height: 48px;
+  color: #333;
+  border: 1px solid #dcdce6;
+  border-radius: 8px;
+  padding: 0 24px;
+}
+
+.App div {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 10px;
+}
+
+.ReactModal__Body--open {
+  overflow: hidden;
+}

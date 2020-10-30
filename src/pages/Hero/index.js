@@ -83,14 +83,9 @@ function Hero() {
     }
   };
 
-  if (loading) {
-    return (
-      <>
-        <Header />
-        <div className='loading-div'>loading...</div>
-      </>
-    );
-  }
+  const noContent = () => (
+    <div className='centered-div'>Nenhum herói encontrado</div>
+  );
 
   return (
     <>
@@ -107,28 +102,32 @@ function Hero() {
             placeholder='Pesquisar herói'
           />
         </div>
-        <div style={{ width: '100%' }}>
-          {error ? (
-            <h1>{errorMessage}</h1>
-          ) : (
-            heroes.map((hero, index) => {
-              if (heroes.length === index + 1) {
-                return (
-                  <HeroCard
-                    key={hero.id}
-                    hero={hero}
-                    openModal={openModal}
-                    scrollRef={lastHeroElementRef}
-                  />
-                );
-              } else {
-                return (
-                  <HeroCard key={hero.id} hero={hero} openModal={openModal} />
-                );
-              }
-            })
-          )}
-        </div>
+        {!heroes.length && !loading ? (
+          noContent()
+        ) : (
+          <div style={{ width: '100%' }}>
+            {error ? (
+              <h1>{errorMessage}</h1>
+            ) : (
+              heroes.map((hero, index) => {
+                if (heroes.length === index + 1) {
+                  return (
+                    <HeroCard
+                      key={hero.id}
+                      hero={hero}
+                      openModal={openModal}
+                      scrollRef={lastHeroElementRef}
+                    />
+                  );
+                } else {
+                  return (
+                    <HeroCard key={hero.id} hero={hero} openModal={openModal} />
+                  );
+                }
+              })
+            )}
+          </div>
+        )}
       </div>
       <Modal
         isOpen={isModalVisible}

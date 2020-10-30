@@ -4,15 +4,15 @@ import Axios from 'axios';
 import api from '../services/api';
 import { getMd5Hash } from '../utils';
 
-export default function useFetchHeroes(search, offset) {
-  const [heroes, setHeroes] = useState([]);
+export default function useFetchComics(search, offset) {
+  const [comics, setComics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
-    setHeroes([]);
+    setComics([]);
   }, [search]);
 
   useEffect(() => {
@@ -23,15 +23,15 @@ export default function useFetchHeroes(search, offset) {
 
       try {
         const { data } = await api.get(
-          `/characters?ts=${ts}&apikey=${
+          `/comics?ts=${ts}&apikey=${
             process.env.REACT_APP_PUBLIC_KEY
           }&hash=${hash}&${
-            search.length ? `nameStartsWith=${search}` : ''
+            search.length ? `titleStartsWith=${search}` : ''
           }&offset=${offset}`,
           { cancelToken: source.token }
         );
 
-        setHeroes((prevHeroes) => {
+        setComics((prevHeroes) => {
           return [...prevHeroes, ...data.data.results];
         });
         setHasMore(data.data.total > offset);
@@ -48,5 +48,5 @@ export default function useFetchHeroes(search, offset) {
     };
   }, [search, offset]);
 
-  return { loading, error, errorMessage, heroes, hasMore };
+  return { loading, error, errorMessage, comics, hasMore };
 }

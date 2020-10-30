@@ -25,16 +25,18 @@ function HeroModal({ hero, comics }) {
       <div className='comics'>
         <h1>Quadrinhos</h1>
         <div className='comics-content'>
-          {comics.map((comic) => (
-            <div key={comic.id} className='comic-container'>
-              <p>{comic.title}</p>
-              <img
-                src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
-                alt={hero.title}
-              />
-              <p>{comic.description || 'No description provided'}</p>
-            </div>
-          ))}
+          {comics.length
+            ? comics.map((comic) => (
+                <div key={comic.id} className='comic-container'>
+                  <p>{comic.title}</p>
+                  <img
+                    src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
+                    alt={hero.title}
+                  />
+                  <p>{comic.description || 'No description provided'}</p>
+                </div>
+              ))
+            : 'Nenhum quadrinho encontrado'}
         </div>
       </div>
     </div>

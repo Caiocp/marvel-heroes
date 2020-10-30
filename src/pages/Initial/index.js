@@ -1,70 +1,46 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md';
+import React, { useEffect, useState } from 'react';
 
 import Header from '../../components/Header';
+import RowCards from '../../components/RowCards';
 import useFetchHeroes from '../../hooks/useFetchHeroes';
 
-import './styles.css';
+import api from '../../services/api';
+import { getMd5Hash } from '../../utils';
 
 function Initial() {
-  const [scrollX, setScrollX] = useState(0);
-
+  const [comics, setComics] = useState([]);
   const { heroes, loading } = useFetchHeroes('', 0);
 
-  const handleLeftArrow = () => {
-    let x = scrollX + Math.round(window.innerWidth / 2);
-    if (x > 0) {
-      x = 0;
-    }
-    setScrollX(x);
-  };
+  useEffect(() => {
+    const fetchComics = async () => {
+      const { hash, ts } = getMd5Hash();
 
-  const handleRightArrow = () => {
-    let x = scrollX - Math.round(window.innerWidth / 2);
-    let listW = heroes.length * 320;
-    if (window.innerWidth - listW > x) {
-      x = window.innerWidth - listW - 64;
-    }
-    setScrollX(x);
-  };
+      const { data } = await api.get(
+        `/comics?ts=${ts}&apikey=${process.env.REACT_APP_PUBLIC_KEY}&hash=${hash}`
+      );
+
+      setComics(data.data.results);
+    };
+    fetchComics();
+  }, []);
 
   if (loading) {
     return (
       <>
         <Header />
-        <div className='loading-div'>loading...</div>
+        <div className='centered-div'>loading...</div>
       </>
     );
   }
 
   return (
-    <div id='initial-container'>
+    <div>
       <Header />
-      <div className='hero-row-area'>
-        <Link to='/heroes' className='link'>
-          Personagens
-          <MdKeyboardArrowRight size={36} />
-        </Link>
-        <div className='hero-row-left' onClick={handleLeftArrow}>
-          <MdKeyboardArrowLeft size={56} />
-        </div>
-        <div className='hero-row-right' onClick={handleRightArrow}>
-          <MdKeyboardArrowRight size={56} />
-        </div>
-        <div
-          className='hero-row-list'
-          style={{ marginLeft: scrollX, width: heroes.length * 320 }}
-        >
-          {heroes.map((hero) => (
-            <div className='hero-row-item' key={hero.id}>
-              <img
-                src={`${hero.thumbnail.path}.${hero.thumbnail.extension}`}
-                alt={hero.name}
-              />
-            </div>
-          ))}
-        </div>
+      <div>
+        <RowCards data={heroes} link='/heroes' title='Personagens' />
+      </div>
+      <div>
+        <RowCards data={comics} link='/comics' title='Quadrinhos' />
       </div>
     </div>
   );
