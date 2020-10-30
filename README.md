@@ -1,5 +1,5 @@
-<div align="center">
-    <img src="https://cdn.worldvectorlogo.com/logos/marvel.svg" alt="marvel" width="320"/>
+<div  align="center">
+    <img  src="https://cdn.worldvectorlogo.com/logos/marvel.svg"  alt="marvel"  width="320"/>
 </div>
 
 # Como executar
@@ -13,6 +13,14 @@ Após instalar o node.js, clone esse repositório. No terminal digite `git clone
 `npm install` ou se preferir e possuir o [Yarn](https://yarnpkg.com/) instalado no seu computador `yarn`.
 
 Agora que já está tudo pronto, execute o projeto com o comando `npm start` ou `yarn start`. O projeto deve abrir no seu navegador padrão na url `localhost:3000`.
+
+---
+
+### :red_circle: Live demo
+
+O projeto está hospedado na [Vercel](https://www.vercel.com/) e você pode acessá-lo pelo link abaixo
+
+- **[Marvel heroes](https://marvel-heroes-caiocp.vercel.app/)**
 
 ---
 
